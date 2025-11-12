@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MindMate - AI-Powered Study Companion
+
+An intelligent, full-stack study companion that empowers students to learn more efficiently through personalized insights, AI-generated summaries, and progress tracking.
+
+## Features
+
+- **User Authentication**: Secure signup, login, and logout with JWT
+- **Notes Management**: Create, read, update, and delete notes with search, filter, sort, and pagination
+- **AI-Generated Summaries**: Get concise summaries of your notes using Gemini AI
+- **Flashcards**: Create and manage flashcards with AI generation support
+- **Flashcard Review**: Interactive flashcard review system with difficulty tracking
+- **Progress Analytics**: Visual dashboard with study statistics and recommendations
+- **Smart Recommendations**: AI-powered study suggestions based on your activity
+
+## Tech Stack
+
+- **Frontend**: Next.js 16, React 19, TailwindCSS
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: JWT (jsonwebtoken)
+- **AI Integration**: Google Gemini API
+- **UI Components**: shadcn/ui
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- PostgreSQL database
+- Google Gemini API key
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd rancap
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+Create a `.env` file in the root directory:
+```
+DATABASE_URL="postgresql://user:password@localhost:5432/mindmate?schema=public"
+JWT_SECRET="your-secret-key-change-in-production"
+GEMINI_API_KEY="your-gemini-api-key-here"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Set up the database:
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Endpoints
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Authentication
+- `POST /api/auth/signup` - Register a new user
+- `POST /api/auth/login` - Authenticate user
 
-## Deploy on Vercel
+### Notes
+- `GET /api/notes` - Get all notes (with search, filter, sort, pagination)
+- `POST /api/notes` - Create a new note
+- `PUT /api/notes/:id` - Update a note
+- `DELETE /api/notes/:id` - Delete a note
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Flashcards
+- `GET /api/flashcards` - Get all flashcards (with filter, sort, pagination)
+- `POST /api/flashcards` - Create a flashcard
+- `DELETE /api/flashcards?id=:id` - Delete a flashcard
+- `PUT /api/flashcards/:id/review` - Update flashcard review
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### AI
+- `POST /api/ai/summary` - Generate AI summary
+- `POST /api/ai/flashcards` - Generate flashcards from content
+
+### Analytics
+- `GET /api/analytics?days=30` - Get study analytics
+
+### Sessions
+- `POST /api/sessions` - Create a study session
+
+## Project Structure
+
+```
+rancap/
+├── app/
+│   ├── api/           # API routes
+│   ├── dashboard/     # Dashboard page
+│   ├── notes/         # Notes page
+│   ├── flashcards/    # Flashcards page
+│   ├── login/         # Login page
+│   ├── signup/        # Signup page
+│   └── layout.js      # Root layout
+├── components/
+│   ├── ui/            # shadcn/ui components
+│   ├── Navbar.js      # Navigation bar
+│   └── ProtectedRoute.js
+├── contexts/
+│   └── AuthContext.js # Authentication context
+├── lib/
+│   ├── api.js         # API utility functions
+│   ├── auth.js        # Authentication utilities
+│   ├── gemini.js      # Gemini AI integration
+│   └── prisma.js      # Prisma client
+└── prisma/
+    └── schema.prisma  # Database schema
+```
+
+## Database Schema
+
+- **User**: User accounts with authentication
+- **Note**: Study notes with title, content, topic, and tags
+- **Flashcard**: Flashcards with front, back, topic, and review tracking
+- **StudySession**: Study session tracking with duration and topics
+
+## Development
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
+
+## Deployment
+
+### Frontend (Vercel)
+1. Push code to GitHub
+2. Import project in Vercel
+3. Add environment variables
+4. Deploy
+
+### Backend (Render)
+1. Create a new Web Service in Render
+2. Connect your GitHub repository
+3. Set build command: `npm install && npx prisma generate && npm run build`
+4. Set start command: `npm start`
+5. Add environment variables
+6. Deploy
+
+### Database (Supabase/Neon)
+1. Create a PostgreSQL database
+2. Update DATABASE_URL in environment variables
+3. Run migrations: `npx prisma db push`
+
+## License
+
+MIT
