@@ -22,6 +22,7 @@ export default function LoginPage() {
     if (!authLoading && user) {
       router.push('/dashboard')
     }
+    
   }, [user, authLoading, router])
 
   const handleSubmit = async (e) => {
