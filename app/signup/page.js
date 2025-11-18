@@ -16,6 +16,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  
   const router = useRouter()
   const { login, user, loading: authLoading } = useAuth()
 
