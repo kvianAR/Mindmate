@@ -9,9 +9,11 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
+
     const flashcard = await prisma.flashcard.findFirst({
       where: {
-        id: params.id,
+        id,
         userId
       }
     })
@@ -35,7 +37,7 @@ export async function PUT(request, { params }) {
     }
 
     const updated = await prisma.flashcard.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData
     })
 
@@ -47,4 +49,3 @@ export async function PUT(request, { params }) {
     )
   }
 }
-

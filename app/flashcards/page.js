@@ -155,12 +155,12 @@ export default function FlashcardsPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-3 mb-8 animate-fade-in" style={{ animationDelay: '0.1s', opacity: 0 }}>
-            <Select value={topic} onValueChange={(v) => { setTopic(v); setPage(1) }}>
+            <Select value={topic || "all"} onValueChange={(v) => { setTopic(v === "all" ? "" : v); setPage(1) }}>
               <SelectTrigger>
                 <SelectValue placeholder="Filter by topic" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All topics</SelectItem>
+                <SelectItem value="all">All topics</SelectItem>
                 {topics.map(t => (
                   <SelectItem key={t} value={t}>{t}</SelectItem>
                 ))}
@@ -374,25 +374,32 @@ export default function FlashcardsPage() {
               </DialogHeader>
               {currentFlashcard && (
                 <div className="space-y-6">
-                  <Card 
-                    className="min-h-[250px] flex items-center justify-center cursor-pointer card-hover transition-all duration-300"
+                  <div 
+                    className="h-[300px] perspective-1000 cursor-pointer"
                     onClick={handleFlip}
-                    style={{ transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
                   >
-                    <CardContent className="p-8 text-center">
-                      {flipped ? (
-                        <div className="animate-fade-in">
-                          <p className="text-sm text-muted-foreground mb-3 font-medium">Answer</p>
-                          <p className="text-lg leading-relaxed">{currentFlashcard.back}</p>
-                        </div>
-                      ) : (
-                        <div className="animate-fade-in">
-                          <p className="text-sm text-muted-foreground mb-3 font-medium">Question</p>
-                          <p className="text-lg leading-relaxed">{currentFlashcard.front}</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                    <div 
+                      className="relative w-full h-full preserve-3d transition-transform duration-300"
+                      style={{ transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+                    >
+                      <Card className="absolute inset-0 w-full h-full backface-hidden">
+                        <CardContent className="p-8 text-center h-full flex flex-col items-center justify-center">
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-3 font-medium">Question</p>
+                            <p className="text-lg leading-relaxed">{currentFlashcard.front}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card className="absolute inset-0 w-full h-full backface-hidden rotate-y-180">
+                        <CardContent className="p-8 text-center h-full flex flex-col items-center justify-center">
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-3 font-medium">Answer</p>
+                            <p className="text-lg leading-relaxed">{currentFlashcard.back}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
                   <div className="flex justify-center gap-3">
                     <Button 
                       variant="outline" 
@@ -436,4 +443,3 @@ export default function FlashcardsPage() {
     </ProtectedRoute>
   )
 }
-

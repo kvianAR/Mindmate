@@ -9,9 +9,11 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
+
     const note = await prisma.note.findFirst({
       where: {
-        id: params.id,
+        id,
         userId
       }
     })
@@ -36,11 +38,12 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const { title, content, topic, tags } = await request.json()
 
     const note = await prisma.note.findFirst({
       where: {
-        id: params.id,
+        id,
         userId
       }
     })
@@ -50,7 +53,7 @@ export async function PUT(request, { params }) {
     }
 
     const updatedNote = await prisma.note.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(title && { title }),
         ...(content && { content }),
@@ -75,9 +78,11 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
+
     const note = await prisma.note.findFirst({
       where: {
-        id: params.id,
+        id,
         userId
       }
     })
@@ -87,7 +92,7 @@ export async function DELETE(request, { params }) {
     }
 
     await prisma.note.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
     return NextResponse.json({ message: 'Note deleted successfully' })
@@ -98,4 +103,3 @@ export async function DELETE(request, { params }) {
     )
   }
 }
-

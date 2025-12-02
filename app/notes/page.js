@@ -157,12 +157,12 @@ export default function NotesPage() {
               onChange={(e) => { setSearch(e.target.value); setPage(1) }}
               className="transition-all focus:ring-2 focus:ring-primary/20"
             />
-            <Select value={topic} onValueChange={(v) => { setTopic(v); setPage(1) }}>
+            <Select value={topic || "all"} onValueChange={(v) => { setTopic(v === "all" ? "" : v); setPage(1) }}>
               <SelectTrigger>
                 <SelectValue placeholder="Filter by topic" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All topics</SelectItem>
+                <SelectItem value="all">All topics</SelectItem>
                 {topics.map(t => (
                   <SelectItem key={t} value={t}>{t}</SelectItem>
                 ))}
@@ -340,7 +340,7 @@ export default function NotesPage() {
                 </div>
               ) : summary ? (
                 <div className="space-y-4">
-                  <div className="p-4 bg-muted rounded-md whitespace-pre-wrap">
+                  <div className="p-4 bg-muted rounded-md max-h-96 overflow-y-auto whitespace-pre-wrap">
                     {summary}
                   </div>
                   <div className="flex justify-end">
@@ -357,4 +357,3 @@ export default function NotesPage() {
     </ProtectedRoute>
   )
 }
-
