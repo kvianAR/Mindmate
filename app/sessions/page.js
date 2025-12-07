@@ -93,12 +93,26 @@ export default function SessionsPage() {
       
       // Show success notification (you can replace this with a proper toast notification)
       if (response.flashcards && response.flashcards.length > 0) {
-        alert(`🎉 Generated ${response.flashcards.length} AI flashcards for "${topic}"! Check your flashcards page to review them.`)
+        // Check if these are fallback flashcards (they won't have AI-specific formatting)
+        const isAIGenerated = !response.flashcards.some(card => 
+          card.front.includes('Study question') || card.front.includes('key concepts')
+        )
+        
+        if (isAIGenerated) {
+          alert(`🤖 Generated ${response.flashcards.length} AI flashcards for "${topic}"! Check your flashcards page to review them.`)
+        } else {
+          alert(`📚 Created ${response.flashcards.length} study flashcards for "${topic}"! AI quota reached, using curated flashcards. Check your flashcards page to review them.`)
+        }
       }
     } catch (error) {
       console.error('Failed to generate AI flashcards:', error)
-      // Show error notification
-      alert(`⚠️ Failed to generate AI flashcards: ${error.message}`)
+      
+      // Check if it's a quota error and provide helpful message
+      if (error.message.includes('quota') || error.message.includes('429')) {
+        alert(`📚 AI quota reached! Created study flashcards for "${topic}" using our curated collection. Check your flashcards page to review them.`)
+      } else {
+        alert(`⚠️ Failed to generate flashcards: ${error.message}`)
+      }
     }
   }
 
