@@ -5,10 +5,11 @@ import { getUserIdFromRequest } from '@/lib/auth'
 export async function GET(request) {
   try {
     const userId = getUserIdFromRequest(request)
+    
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-
+    
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
@@ -92,6 +93,7 @@ export async function POST(request) {
       }
     })
 
+    
     return NextResponse.json(note)
   } catch (error) {
     return NextResponse.json(
@@ -100,4 +102,3 @@ export async function POST(request) {
     )
   }
 }
-
