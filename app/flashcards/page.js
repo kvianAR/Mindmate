@@ -383,18 +383,22 @@ export default function FlashcardsPage() {
                       style={{ transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
                     >
                       <Card className="absolute inset-0 w-full h-full backface-hidden">
-                        <CardContent className="p-8 text-center h-full flex flex-col items-center justify-center">
-                          <div>
-                            <p className="text-sm text-muted-foreground mb-3 font-medium">Question</p>
-                            <p className="text-lg leading-relaxed">{currentFlashcard.front}</p>
+                        <CardContent className="p-6 text-center h-full flex flex-col items-center justify-center">
+                          <div className="w-full max-w-full">
+                            <p className="text-sm text-muted-foreground mb-4 font-medium">Question</p>
+                            <div className="text-lg leading-relaxed break-words overflow-hidden max-h-48 overflow-y-auto">
+                              {currentFlashcard.front}
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
                       <Card className="absolute inset-0 w-full h-full backface-hidden rotate-y-180">
-                        <CardContent className="p-8 text-center h-full flex flex-col items-center justify-center">
-                          <div>
-                            <p className="text-sm text-muted-foreground mb-3 font-medium">Answer</p>
-                            <p className="text-lg leading-relaxed">{currentFlashcard.back}</p>
+                        <CardContent className="p-6 text-center h-full flex flex-col items-center justify-center">
+                          <div className="w-full max-w-full">
+                            <p className="text-sm text-muted-foreground mb-4 font-medium">Answer</p>
+                            <div className="text-lg leading-relaxed break-words overflow-hidden max-h-48 overflow-y-auto whitespace-pre-wrap">
+                              {currentFlashcard.back}
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
