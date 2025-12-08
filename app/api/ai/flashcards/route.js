@@ -21,11 +21,9 @@ export async function POST(request) {
 
     let flashcards
 
-    // If content is provided, generate flashcards from content
     if (content) {
       flashcards = await generateFlashcards(topic, content)
     } else {
-      // Generate flashcards based on topic alone for study sessions
       flashcards = await generateFlashcardsFromTopic(topic, count, difficulty)
     }
 

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export function Navbar() {
   const { user, logout } = useAuth()
@@ -38,6 +39,7 @@ export function Navbar() {
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
           </Link>
           <div className="flex items-center gap-3 pl-4 border-l border-border">
+            <ThemeToggle />
             <span className="text-sm text-muted-foreground font-medium">{user?.name}</span>
             <Button variant="outline" size="sm" onClick={handleLogout} className="transition-all hover:scale-105">
               Logout

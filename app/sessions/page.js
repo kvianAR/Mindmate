@@ -77,7 +77,6 @@ export default function SessionsPage() {
     setElapsedTime(0)
     setIsDialogOpen(false)
 
-    // Generate AI flashcards if flashcards to review is specified
     if (sessionData.flashcardsReviewed > 0) {
       await generateAIFlashcards(topic, sessionData.flashcardsReviewed)
     }
@@ -98,9 +97,7 @@ export default function SessionsPage() {
 
       console.log('AI Flashcards generated successfully:', response)
       
-      // Show success notification (you can replace this with a proper toast notification)
       if (response.flashcards && response.flashcards.length > 0) {
-        // Check if these are fallback flashcards (they won't have AI-specific formatting)
         const isAIGenerated = !response.flashcards.some(card => 
           card.front.includes('Study question') || card.front.includes('key concepts')
         )
@@ -114,7 +111,6 @@ export default function SessionsPage() {
     } catch (error) {
       console.error('Failed to generate AI flashcards:', error)
       
-      // Check if it's a quota error and provide helpful message
       if (error.message.includes('quota') || error.message.includes('429')) {
         alert(`📚 AI quota reached! Created study flashcards for "${topic}" using our curated collection. Check your flashcards page to review them.`)
       } else {
@@ -128,12 +124,9 @@ export default function SessionsPage() {
       setLoadingFlashcards(true)
       setSelectedSessionInfo(session)
       
-      // Fetch flashcards created during this session (by topic and around the same time)
       const sessionDate = new Date(session.createdAt)
       const response = await apiRequest(`/api/flashcards?topic=${encodeURIComponent(session.topic || '')}&limit=50`)
       
-      // Filter flashcards that were likely created during this session
-      // (within 1 hour of session creation and same topic)
       const sessionFlashcards = response.flashcards.filter(card => {
         if (!session.topic) return false
         const cardDate = new Date(card.createdAt)
@@ -177,7 +170,6 @@ export default function SessionsPage() {
       
       console.log('Session saved successfully:', result)
       
-      // Reset session state
       setActiveSession(null)
       setElapsedTime(0)
       setSessionData({
@@ -185,11 +177,9 @@ export default function SessionsPage() {
         notesStudied: [],
         flashcardsReviewed: 0
       })
-      // Refresh sessions list
       fetchSessions()
     } catch (error) {
       console.error('Failed to end session:', error)
-      // Show user-friendly error message
       alert(`Failed to save session: ${error.message}`)
     } finally {
       setIsEndingSession(false)
@@ -303,7 +293,6 @@ export default function SessionsPage() {
 
         <Separator />
 
-        {/* Active Session Display */}
         {activeSession && (
           <Card className="border-2 border-primary/20 bg-primary/5">
             <CardHeader>
@@ -334,7 +323,6 @@ export default function SessionsPage() {
           </Card>
         )}
 
-        {/* Session Statistics */}
         {sessions.length > 0 && (
           <div className="grid gap-4 md:grid-cols-3">
             <Card>
@@ -441,7 +429,6 @@ export default function SessionsPage() {
         ) : null}
       </div>
 
-      {/* Flashcards Dialog */}
       <Dialog open={flashcardDialogOpen} onOpenChange={setFlashcardDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>

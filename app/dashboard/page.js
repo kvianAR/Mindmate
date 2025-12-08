@@ -190,7 +190,6 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {/* Notes Insights */}
                       <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
@@ -206,7 +205,6 @@ export default function DashboardPage() {
                         <span className="text-2xl font-bold text-blue-700 dark:text-blue-300">{analytics.recentActivity.notesCreated}</span>
                       </div>
 
-                      {/* Flashcards Insights */}
                       <div className="flex items-center justify-between p-3 bg-purple-50 dark:bg-purple-950/20 rounded-lg border border-purple-200 dark:border-purple-800">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
@@ -222,7 +220,6 @@ export default function DashboardPage() {
                         <span className="text-2xl font-bold text-purple-700 dark:text-purple-300">{analytics.overview.totalFlashcardReviews}</span>
                       </div>
 
-                      {/* Study Progress */}
                       <div className="p-3 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-3">
@@ -255,7 +252,6 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {/* Study Streak */}
                       <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-950/20 rounded-lg border border-orange-200 dark:border-orange-800">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
@@ -274,17 +270,15 @@ export default function DashboardPage() {
                         </span>
                       </div>
 
-                      {/* Recently Studied Topics from Sessions */}
                       {recentSessions && recentSessions.length > 0 ? (
                         <div className="space-y-3">
                           <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Recently Studied Topics</h4>
                           {recentSessions
                             .filter(session => session.topic) // Only sessions with topics
-                            .slice(0, 5) // Show max 5 recent topics
+                            .slice(0, 5)
                             .map((session, index) => {
-                              // Calculate progress based on session duration and flashcards
-                              const baseProgress = Math.min(session.duration * 2, 60) // Duration-based progress
-                              const flashcardBonus = session.flashcardsReviewed * 5 // Bonus for flashcards
+                              const baseProgress = Math.min(session.duration * 2, 60)
+                              const flashcardBonus = session.flashcardsReviewed * 5
                               const progress = Math.min(baseProgress + flashcardBonus, 95)
                               
                               return (
@@ -313,7 +307,6 @@ export default function DashboardPage() {
                               )
                             })}
                           
-                          {/* Show unique topics count */}
                           <div className="pt-2 mt-3 border-t">
                             <div className="flex items-center justify-between text-xs text-muted-foreground">
                               <span>Unique topics studied: {new Set(recentSessions.filter(s => s.topic).map(s => s.topic)).size}</span>
@@ -337,7 +330,6 @@ export default function DashboardPage() {
                 </Card>
               </div>
 
-              {/* Quick Actions and Study Goals */}
               <div className="grid gap-6 md:grid-cols-2 mb-10">
                 <Card className="card-hover animate-fade-in" style={{ animationDelay: '0.7s', opacity: 0 }}>
                   <CardHeader>
@@ -480,7 +472,6 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {/* Default Goals */}
                       <div className="space-y-2">
                         <div className="flex justify-between items-center">
                           <span className="text-sm font-medium">Study Time Goal</span>
@@ -507,7 +498,6 @@ export default function DashboardPage() {
                         />
                       </div>
 
-                      {/* Custom Goals */}
                       {customGoals.length > 0 && (
                         <>
                           <div className="pt-2 border-t border-border/50">

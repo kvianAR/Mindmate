@@ -4,9 +4,7 @@ const prisma = new PrismaClient()
 
 async function addSampleMathFlashcards() {
   try {
-    // You'll need to replace 'your-user-id' with an actual user ID from your database
-    // For demo purposes, let's assume we have a user
-    const userId = 'sample-user-id' // Replace this with actual user ID
+    const userId = 'sample-user-id'
     
     const mathFlashcards = [
       {
